@@ -1,0 +1,16 @@
+{
+    "name": "HomeConstruction.site",
+    "short_name": "HC.site",
+    "description": "Build Your Home In Public - A productized construction service",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#0B0B0D",
+    "theme_color": "#0B0B0D",
+    "icons": [
+        {
+            "src": "/favicon.svg",
+            "sizes": "any",
+            "type": "image/svg+xml"
+        }
+    ]
+}
