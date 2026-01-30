@@ -1089,6 +1089,19 @@ function FinalCTASection() {
           No commitment. We'll map your scope and send a quote in 48 hours.
         </p>
       </div>
+
+      {/* Footer credit */}
+      <div className="absolute left-1/2 bottom-[3vh] -translate-x-1/2 flex items-center gap-2">
+        <span className="text-white/40 text-xs">Built by</span>
+        <a
+          href="https://x.com/asynchronope"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-white/60 text-xs font-medium hover:text-white transition-colors"
+        >
+          Adam ↗
+        </a>
+      </div>
     </section>
   );
 }
