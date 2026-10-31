@@ -36,6 +36,11 @@ fallback for direct page URLs on the existing project. Deployment ownership
 must be verified before release; do not create or rebind a hosting project to
 make a command succeed.
 
+The existing production endpoint is https://homeconstruction-site.vercel.app.
+The custom `.site` hosts did not resolve during release verification. They need
+DNS configuration at their current provider before being advertised as live;
+this release does not change DNS or claim a domain renewal.
+
 Safety tests transpile the edited components and exercise form handlers with
 isolated browser/module mocks. They do not verify provider delivery or replace
 an actual browser check.
