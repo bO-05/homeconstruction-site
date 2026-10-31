@@ -79,8 +79,8 @@ export default function AddOnsPage() {
             Customize Your Build
           </h1>
           <p className="text-white/60 text-lg max-w-2xl">
-            Add modules anytime before Week 6. Each add-on has fixed pricing 
-            and won't change your timeline.
+            Explore fictional modules and illustrative prices.
+            Selections stay in this preview and do not create orders or delivery commitments.
           </p>
         </div>
 

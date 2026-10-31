@@ -60,10 +60,9 @@ export default function ContactPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success('Message sent!', {
-      description: 'We\'ll get back to you within 24 hours.',
+    toast.info('Preview only: no message sent', {
+      description: 'This interface has no connected contact service.',
     });
-    setFormData({ name: '', email: '', subject: '', message: '' });
   };
 
   return (
@@ -75,8 +74,8 @@ export default function ContactPage() {
             Get in Touch
           </h1>
           <p className="text-white/60 text-lg max-w-2xl mx-auto">
-            Have questions? We'd love to hear from you. Send us a message 
-            and we'll respond as soon as possible.
+            Explore the contact-form design with sample details only.
+            No message is sent and no response time is offered.
           </p>
         </div>
 
@@ -90,8 +89,7 @@ export default function ContactPage() {
               </h3>
               
               <div className="space-y-5">
-                <a 
-                  href={`mailto:${contactInfo.email}`}
+                <div
                   className="flex items-center gap-4 group"
                 >
                   <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center group-hover:bg-[#B8FF3D]/10 transition-colors">
@@ -103,10 +101,9 @@ export default function ContactPage() {
                       {contactInfo.email}
                     </p>
                   </div>
-                </a>
+                </div>
 
-                <a 
-                  href={`tel:${contactInfo.phone.replace(/\s/g, '')}`}
+                <div
                   className="flex items-center gap-4 group"
                 >
                   <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center group-hover:bg-[#B8FF3D]/10 transition-colors">
@@ -118,7 +115,7 @@ export default function ContactPage() {
                       {contactInfo.phone}
                     </p>
                   </div>
-                </a>
+                </div>
 
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center">
@@ -145,33 +142,24 @@ export default function ContactPage() {
             {/* Social */}
             <div className="p-6 rounded-[22px] border border-white/10 bg-white/[0.02]">
               <h3 className="font-display font-bold text-white text-lg mb-4">
-                Follow Us
+                Social placeholders
               </h3>
               <div className="flex gap-3">
-                <a 
-                  href={`https://instagram.com/${contactInfo.social.instagram}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <span title="No Instagram account configured"
                   className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center hover:bg-[#B8FF3D] hover:text-[#0B0B0D] transition-all text-white/70"
                 >
                   <Instagram size={20} />
-                </a>
-                <a 
-                  href={`https://facebook.com/${contactInfo.social.facebook}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                </span>
+                <span title="No Facebook account configured"
                   className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center hover:bg-[#B8FF3D] hover:text-[#0B0B0D] transition-all text-white/70"
                 >
                   <Facebook size={20} />
-                </a>
-                <a 
-                  href={`https://linkedin.com/company/${contactInfo.social.linkedin}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                </span>
+                <span title="No LinkedIn account configured"
                   className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center hover:bg-[#B8FF3D] hover:text-[#0B0B0D] transition-all text-white/70"
                 >
                   <Linkedin size={20} />
-                </a>
+                </span>
               </div>
             </div>
 
@@ -185,14 +173,14 @@ export default function ContactPage() {
                   to="/book-call"
                   className="flex items-center justify-between p-4 rounded-xl bg-white/5 hover:bg-white/10 transition-colors"
                 >
-                  <span className="text-white">Book a discovery call</span>
+                  <span className="text-white">Preview the call planner</span>
                   <ArrowRight size={18} className="text-[#B8FF3D]" />
                 </Link>
                 <Link 
                   to="/quote"
                   className="flex items-center justify-between p-4 rounded-xl bg-white/5 hover:bg-white/10 transition-colors"
                 >
-                  <span className="text-white">Get a quick quote</span>
+                  <span className="text-white">Try sample pricing</span>
                   <ArrowRight size={18} className="text-[#B8FF3D]" />
                 </Link>
               </div>
@@ -206,28 +194,26 @@ export default function ContactPage() {
             className="lg:col-span-3 p-8 rounded-[28px] border border-white/10 bg-white/[0.02]"
           >
             <h3 className="font-display font-bold text-white text-xl mb-6">
-              Send us a Message
+              Contact form preview
             </h3>
 
             <div className="grid sm:grid-cols-2 gap-5 mb-5">
               <div>
-                <label className="text-white/60 text-sm mb-2 block">Your Name *</label>
-                <input
+                <label htmlFor="contactpage-field-1" className="text-white/60 text-sm mb-2 block">Your Name (optional sample)</label>
+                <input id="contactpage-field-1"
                   type="text"
-                  required
                   className="form-input"
-                  placeholder="John Smith"
+                  placeholder="Sample Visitor"
                   value={formData.name}
                   onChange={e => setFormData({...formData, name: e.target.value})}
                 />
               </div>
               <div>
-                <label className="text-white/60 text-sm mb-2 block">Your Email *</label>
-                <input
+                <label htmlFor="contactpage-field-2" className="text-white/60 text-sm mb-2 block">Your Email (optional sample)</label>
+                <input id="contactpage-field-2"
                   type="email"
-                  required
                   className="form-input"
-                  placeholder="john@example.com"
+                  placeholder="sample@example.invalid"
                   value={formData.email}
                   onChange={e => setFormData({...formData, email: e.target.value})}
                 />
@@ -235,8 +221,8 @@ export default function ContactPage() {
             </div>
 
             <div className="mb-5">
-              <label className="text-white/60 text-sm mb-2 block">Subject</label>
-              <select
+              <label htmlFor="contactpage-field-3" className="text-white/60 text-sm mb-2 block">Subject</label>
+              <select id="contactpage-field-3"
                 className="form-input"
                 value={formData.subject}
                 onChange={e => setFormData({...formData, subject: e.target.value})}
@@ -251,9 +237,8 @@ export default function ContactPage() {
             </div>
 
             <div className="mb-6">
-              <label className="text-white/60 text-sm mb-2 block">Message *</label>
-              <textarea
-                required
+              <label htmlFor="contactpage-field-4" className="text-white/60 text-sm mb-2 block">Message</label>
+              <textarea id="contactpage-field-4"
                 className="form-input min-h-[180px]"
                 placeholder="How can we help you?"
                 value={formData.message}
@@ -263,7 +248,7 @@ export default function ContactPage() {
 
             <button type="submit" className="btn-primary w-full justify-center">
               <Send size={18} className="mr-2" />
-              Send Message
+              Preview form, no delivery
             </button>
           </form>
         </div>

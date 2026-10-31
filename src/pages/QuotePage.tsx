@@ -90,9 +90,8 @@ export default function QuotePage() {
       return;
     }
 
-    // Simulate form submission
-    toast.success('Quote request submitted!', {
-      description: 'We\'ll send your detailed quote within 48 hours.',
+    toast.info('Preview only: no quote requested', {
+      description: 'The calculator uses illustrative prices and does not contact a builder.',
     });
   };
 
@@ -104,11 +103,11 @@ export default function QuotePage() {
         {/* Header */}
         <div ref={headerRef} className="text-center mb-12">
           <h1 className="headline-section text-white mb-4">
-            Get Your Quote
+            Quote Calculator Preview
           </h1>
           <p className="text-white/60 text-lg max-w-2xl mx-auto">
-            Select your base package and add-ons, then tell us about your project. 
-            We'll send a detailed quote within 48 hours.
+            Select sample packages and add-ons to explore the calculator.
+            Prices are fictional, not offers. No quote is sent or requested.
           </p>
         </div>
 
@@ -130,10 +129,13 @@ export default function QuotePage() {
 
               <div className="grid sm:grid-cols-3 gap-4">
                 {basePackages.map((pkg) => (
-                  <div
+                  <button
                     key={pkg.id}
+                    type="button"
+                    aria-label={`Select sample package ${pkg.name}`}
+                    aria-pressed={selectedPackage === pkg.id}
                     onClick={() => setSelectedPackage(pkg.id)}
-                    className={`cursor-pointer p-4 rounded-[18px] border transition-all ${
+                    className={`cursor-pointer text-left p-4 rounded-[18px] border transition-all ${
                       selectedPackage === pkg.id
                         ? 'border-[#B8FF3D] bg-[#B8FF3D]/5'
                         : 'border-white/10 hover:border-white/20'
@@ -152,7 +154,7 @@ export default function QuotePage() {
                     <p className="text-[#B8FF3D] font-display font-bold">
                       {formatPrice(pkg.price)}
                     </p>
-                  </div>
+                  </button>
                 ))}
               </div>
             </div>
@@ -168,10 +170,13 @@ export default function QuotePage() {
 
               <div className="grid sm:grid-cols-2 gap-3">
                 {addOns.map((addon) => (
-                  <div
+                  <button
                     key={addon.id}
+                    type="button"
+                    aria-label={`Toggle sample add-on ${addon.name}`}
+                    aria-pressed={selectedAddons.includes(addon.id)}
                     onClick={() => toggleAddon(addon.id)}
-                    className={`cursor-pointer p-4 rounded-[14px] border transition-all ${
+                    className={`cursor-pointer text-left p-4 rounded-[14px] border transition-all ${
                       selectedAddons.includes(addon.id)
                         ? 'border-[#B8FF3D] bg-[#B8FF3D]/5'
                         : 'border-white/10 hover:border-white/20'
@@ -188,7 +193,7 @@ export default function QuotePage() {
                         <Check size={18} className="text-[#B8FF3D]" />
                       )}
                     </div>
-                  </div>
+                  </button>
                 ))}
               </div>
             </div>
@@ -201,40 +206,38 @@ export default function QuotePage() {
 
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="text-white/60 text-sm mb-2 block">Full Name *</label>
-                  <input
+                  <label htmlFor="quotepage-field-1" className="text-white/60 text-sm mb-2 block">Full Name (optional sample)</label>
+                  <input id="quotepage-field-1"
                     type="text"
-                    required
                     className="form-input"
-                    placeholder="John Smith"
+                    placeholder="Sample Visitor"
                     value={formData.name}
                     onChange={e => setFormData({...formData, name: e.target.value})}
                   />
                 </div>
                 <div>
-                  <label className="text-white/60 text-sm mb-2 block">Email *</label>
-                  <input
+                  <label htmlFor="quotepage-field-2" className="text-white/60 text-sm mb-2 block">Email (optional sample)</label>
+                  <input id="quotepage-field-2"
                     type="email"
-                    required
                     className="form-input"
-                    placeholder="john@example.com"
+                    placeholder="sample@example.invalid"
                     value={formData.email}
                     onChange={e => setFormData({...formData, email: e.target.value})}
                   />
                 </div>
                 <div>
-                  <label className="text-white/60 text-sm mb-2 block">Phone</label>
-                  <input
+                  <label htmlFor="quotepage-field-3" className="text-white/60 text-sm mb-2 block">Phone (optional sample)</label>
+                  <input id="quotepage-field-3"
                     type="tel"
                     className="form-input"
-                    placeholder="(555) 123-4567"
+                    placeholder="Leave blank for this preview"
                     value={formData.phone}
                     onChange={e => setFormData({...formData, phone: e.target.value})}
                   />
                 </div>
                 <div>
-                  <label className="text-white/60 text-sm mb-2 block">Project Type</label>
-                  <select
+                  <label htmlFor="quotepage-field-4" className="text-white/60 text-sm mb-2 block">Project Type</label>
+                  <select id="quotepage-field-4"
                     className="form-input"
                     value={formData.projectType}
                     onChange={e => setFormData({...formData, projectType: e.target.value})}
@@ -247,8 +250,8 @@ export default function QuotePage() {
                   </select>
                 </div>
                 <div className="sm:col-span-2">
-                  <label className="text-white/60 text-sm mb-2 block">Project Details</label>
-                  <textarea
+                  <label htmlFor="quotepage-field-5" className="text-white/60 text-sm mb-2 block">Project Details</label>
+                  <textarea id="quotepage-field-5"
                     className="form-input min-h-[100px]"
                     placeholder="Tell us about your project, timeline, and any specific requirements..."
                     value={formData.message}
@@ -259,7 +262,7 @@ export default function QuotePage() {
             </div>
 
             <button type="submit" className="btn-primary w-full justify-center">
-              Request Detailed Quote
+              Preview selection, no request
               <ArrowRight size={18} className="ml-2" />
             </button>
           </form>
@@ -270,7 +273,7 @@ export default function QuotePage() {
               <div className="flex items-center gap-3 mb-6">
                 <Calculator size={20} className="text-[#B8FF3D]" />
                 <h3 className="font-display font-bold text-white text-lg">
-                  Quote Summary
+                  Illustrative Summary
                 </h3>
               </div>
 
@@ -309,21 +312,20 @@ export default function QuotePage() {
 
                   {/* Total */}
                   <div className="flex justify-between items-center pt-2">
-                    <span className="text-white font-medium">Estimated Total</span>
+                    <span className="text-white font-medium">Illustrative Total</span>
                     <span className="text-[#B8FF3D] font-display font-bold text-2xl">
                       {formatPrice(total)}
                     </span>
                   </div>
 
                   <p className="text-white/40 text-xs mt-4">
-                    * This is an estimate. Final quote may vary based on site conditions 
-                    and specific requirements.
+                    * Fictional calculator values only. Not an estimate, offer, or construction quote.
                   </p>
                 </>
               ) : (
                 <div className="text-center py-8">
                   <p className="text-white/40 text-sm">
-                    Select a base package to see your estimate
+                    Select a base package to see an illustrative total
                   </p>
                 </div>
               )}
@@ -336,7 +338,7 @@ export default function QuotePage() {
                   to="/book-call" 
                   className="text-[#B8FF3D] text-sm hover:underline flex items-center gap-1"
                 >
-                  Schedule a call
+                  Preview a call
                   <ArrowRight size={14} />
                 </Link>
               </div>

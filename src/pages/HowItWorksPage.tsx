@@ -69,8 +69,8 @@ export default function HowItWorksPage() {
             How It Works
           </h1>
           <p className="text-white/60 text-lg max-w-2xl mx-auto">
-            Our proven 6-step process takes you from initial consultation 
-            to move-in day with complete transparency at every stage.
+            An illustrative six-step workflow for a fictional construction service.
+            No site visits, project management, or delivery schedule is offered.
           </p>
         </div>
 
@@ -115,7 +115,7 @@ export default function HowItWorksPage() {
         {/* Timeline Section */}
         <div className="mb-16">
           <h2 className="font-display font-bold text-white text-2xl mb-8 text-center">
-            Your 12-Week Build Timeline
+            Example 12-Week Timeline
           </h2>
 
           <div ref={timelineRef} className="space-y-4">
@@ -166,19 +166,19 @@ export default function HowItWorksPage() {
         {/* CTA */}
         <div className="text-center p-10 rounded-[28px] border border-white/10 bg-gradient-to-b from-white/[0.03] to-transparent">
           <h3 className="font-display font-bold text-white text-2xl mb-4">
-            Ready to Start Your Build?
+            Explore the Sample Flows
           </h3>
           <p className="text-white/60 mb-6 max-w-lg mx-auto">
-            Schedule a free 30-minute discovery call. We'll discuss your vision, 
-            answer your questions, and provide a preliminary estimate.
+            Preview the consultation form or try the illustrative calculator.
+            Neither creates a real appointment or estimate request.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/book-call" className="btn-primary">
-              Book a free call
+              Preview a call
               <ArrowRight size={16} className="ml-2" />
             </Link>
             <Link to="/quote" className="btn-secondary">
-              Get a quick quote
+              Try sample pricing
             </Link>
           </div>
         </div>

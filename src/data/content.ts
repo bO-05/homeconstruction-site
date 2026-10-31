@@ -1,3 +1,4 @@
+// Fictional interface fixtures, not offers, actual projects, or customer results.
 // Base Packages Data
 export const basePackages = [
   {
@@ -244,58 +245,58 @@ export const galleryProjects = [
 export const reviews = [
   {
     id: 1,
-    name: 'Sarah Mitchell',
+    name: 'Sample Homeowner A',
     location: 'Austin, TX',
     rating: 5,
     date: 'December 2025',
     text: 'They finished on time, stayed on budget, and the weekly updates kept us sane. Our home is exactly what we dreamed of.',
     project: 'Premium Build - 3BR Home',
     image: '/reviewer_portrait.jpg',
-    verified: true
+    verified: false
   },
   {
     id: 2,
-    name: 'James & Linda Chen',
+    name: 'Sample Homeowner B',
     location: 'Denver, CO',
     rating: 5,
     date: 'November 2025',
     text: 'The transparency was refreshing. We knew exactly what was happening every week. The quality exceeded our expectations.',
     project: 'Luxury Build - Custom Home',
     image: '/timeline_meeting.jpg',
-    verified: true
+    verified: false
   },
   {
     id: 3,
-    name: 'Michael Torres',
+    name: 'Sample Homeowner C',
     location: 'Phoenix, AZ',
     rating: 5,
     date: 'October 2025',
     text: 'As a first-time home builder, I was nervous. But their process made it so easy. Highly recommend!',
     project: 'Essential Build - Starter Home',
     image: '/pricing_worker.jpg',
-    verified: true
+    verified: false
   },
   {
     id: 4,
-    name: 'Emily Rodriguez',
+    name: 'Sample Homeowner D',
     location: 'Portland, OR',
     rating: 5,
     date: 'September 2025',
     text: 'The add-on system is genius. We started with the base and added modules as we went. No stress, no surprises.',
     project: 'Premium Build + Kitchen Upgrade',
     image: '/addons_kitchen.jpg',
-    verified: true
+    verified: false
   },
   {
     id: 5,
-    name: 'David & Rachel Kim',
+    name: 'Sample Homeowner E',
     location: 'Seattle, WA',
     rating: 5,
     date: 'August 2025',
     text: 'Best decision we made. The smart home add-on has transformed how we live. Everything just works.',
     project: 'Luxury Build + Smart Home',
     image: '/review_interior.jpg',
-    verified: true
+    verified: false
   }
 ];
 
@@ -413,47 +414,47 @@ export const timelineWeeks = [
 export const faqData = [
   {
     question: 'Can I visit the site during the build?',
-    answer: 'Yes, we encourage site visits! We schedule weekly walkthroughs with your project manager, and you can request additional visits anytime through your client portal. Safety equipment is provided, and we ask that visits be scheduled in advance.'
+    answer: 'This interface has no real construction site, site visits, project manager, or connected client portal. The workflow is illustrative.'
   },
   {
     question: 'What happens if weather delays work?',
-    answer: 'Weather delays are built into our timeline buffer. If severe weather causes more than 3 days of delay, we\'ll adjust the schedule and keep you informed in real-time through our project management app.'
+    answer: 'The timeline is static demonstration content. This prototype does not track weather, manage a construction schedule, or send project alerts.'
   },
   {
     question: 'How do change orders work?',
-    answer: 'Change orders can be submitted through your client portal. We provide a fixed price quote within 24 hours, and work begins once approved. No hidden fees, ever. Changes after Week 6 may affect the timeline.'
+    answer: 'There is no connected change-order portal. The prototype does not submit changes, issue prices, approve work, or amend a contract.'
   },
   {
     question: 'Do you handle permits?',
-    answer: 'Absolutely. Permit acquisition is included in our base package. We handle all paperwork, inspections, and approvals with local authorities. You don\'t need to worry about a thing.'
+    answer: 'No permits, applications, inspections, or approvals are handled by this interface. Package descriptions are fictional examples.'
   },
   {
     question: 'What\'s included in the base vs add-ons?',
-    answer: 'The base includes structural work, electrical, plumbing, and basic finishes. Add-ons cover premium materials, smart home tech, custom cabinetry, luxury fixtures, and outdoor spaces. Each package page has a detailed breakdown.'
+    answer: 'The sample packages demonstrate configurable interface cards. Selecting add-ons changes an illustrative calculator total, not a real scope of work or quote.'
   },
   {
     question: 'What payment options do you offer?',
-    answer: 'We offer flexible payment plans: 20% deposit to start, then monthly payments throughout construction, or pay-in-full for a 3% discount. We also partner with lenders for construction financing.'
+    answer: 'None in this prototype. It does not process payments, accept deposits, arrange financing, or connect to a lender. Package prices are illustrative calculator values, not offers.'
   },
   {
     question: 'How long is the warranty?',
-    answer: 'Warranty terms vary by package: Essential includes 1 year, Premium includes 2 years, and Luxury includes 5 years with annual maintenance. All warranties cover workmanship and materials.'
+    answer: 'No actual warranty is offered. Warranty labels in the sample packages are fictional interface content, not coverage, guarantees, or contract terms.'
   },
   {
     question: 'Can I make changes after construction starts?',
-    answer: 'Yes, changes can be made through Week 6 without affecting the timeline. After Week 6, changes may extend the completion date. All changes are quoted upfront with no surprises.'
+    answer: 'No construction or change requests are managed here. Timeline and process examples do not establish actual availability or delivery commitments.'
   }
 ];
 
 // Contact Info
 export const contactInfo = {
-  email: 'hello@homeconstruction.site',
-  phone: '+1 (555) 014-2200',
-  hours: 'Mon–Fri, 8am–6pm',
-  address: '123 Builder Way, Austin, TX 78701',
+  email: 'No inbox connected',
+  phone: 'No phone connected',
+  hours: 'No operating hours; interface study only',
+  address: 'No physical office; fictional demonstration',
   social: {
-    instagram: '@homeconstruction',
-    facebook: 'HomeConstructionSite',
-    linkedin: 'homeconstruction-site'
+    instagram: '',
+    facebook: '',
+    linkedin: ''
   }
 };

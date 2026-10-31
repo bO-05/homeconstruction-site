@@ -56,10 +56,10 @@ export default function ReviewsPage() {
   }, []);
 
   const stats = [
-    { value: '5.0', label: 'Average Rating' },
-    { value: '200+', label: 'Homes Built' },
-    { value: '98%', label: 'On-Time Delivery' },
-    { value: '100%', label: 'Would Recommend' },
+    { value: String(reviews.length), label: 'Fictional Review Cards' },
+    { value: '0', label: 'Verified Endorsements' },
+    { value: 'Demo', label: 'Illustrative Ratings' },
+    { value: 'Sample', label: 'Project Descriptions' },
   ];
 
   return (
@@ -68,11 +68,11 @@ export default function ReviewsPage() {
         {/* Header */}
         <div ref={headerRef} className="text-center mb-12">
           <h1 className="headline-section text-white mb-4">
-            What Homeowners Say
+            Sample Homeowner Reviews
           </h1>
           <p className="text-white/60 text-lg max-w-2xl mx-auto">
-            Don't just take our word for it. Here's what our clients have to say 
-            about their experience building with us.
+            Fictional review cards demonstrate the layout. These are not real
+            customers, endorsements, ratings, or completed projects.
           </p>
         </div>
 
@@ -103,12 +103,8 @@ export default function ReviewsPage() {
             >
               {/* Header */}
               <div className="flex items-start gap-4 mb-4">
-                <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
-                  <img 
-                    src={review.image} 
-                    alt={review.name}
-                    className="w-full h-full object-cover"
-                  />
+                <div aria-hidden="true" className="w-12 h-12 rounded-full flex-shrink-0 flex items-center justify-center bg-[#B8FF3D]/10 text-[#B8FF3D] font-display font-bold">
+                  {review.name.slice(-1)}
                 </div>
                 <div className="flex-1 min-w-0">
                   <h3 className="font-display font-bold text-white truncate">
@@ -119,7 +115,7 @@ export default function ReviewsPage() {
               </div>
 
               {/* Rating */}
-              <div className="flex items-center gap-1 mb-4">
+              <div aria-label="Illustrative five-star rating" className="flex items-center gap-1 mb-4">
                 {[...Array(5)].map((_, i) => (
                   <Star 
                     key={i} 
@@ -139,7 +135,7 @@ export default function ReviewsPage() {
               {/* Project */}
               <div className="flex items-center gap-2 pt-4 border-t border-white/5">
                 <CheckCircle size={14} className="text-[#B8FF3D]" />
-                <span className="text-white/50 text-sm">{review.project}</span>
+                <span className="text-white/50 text-sm">Sample project · {review.project}</span>
               </div>
             </div>
           ))}
@@ -148,13 +144,13 @@ export default function ReviewsPage() {
         {/* CTA */}
         <div className="mt-16 text-center">
           <p className="text-white/60 mb-4">
-            Ready to start your own project?
+            Explore another fictional interface flow.
           </p>
           <Link 
             to="/book-call" 
             className="btn-primary inline-flex"
           >
-            Book a free consultation
+            Preview the consultation form
             <ArrowRight size={16} className="ml-2" />
           </Link>
         </div>

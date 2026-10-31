@@ -3,12 +3,14 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { X, MapPin, Calendar, Tag } from 'lucide-react';
 import { galleryProjects } from '../data/content';
+import { trapDialogFocus } from '../lib/dialog-focus';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function GalleryPage() {
   const headerRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
+  const dialogRef = useRef<HTMLDialogElement>(null);
   const [selectedProject, setSelectedProject] = useState<typeof galleryProjects[0] | null>(null);
   const [filter, setFilter] = useState<string>('All');
 
@@ -17,6 +19,17 @@ export default function GalleryPage() {
   const filteredProjects = filter === 'All' 
     ? galleryProjects 
     : galleryProjects.filter(p => p.category === filter);
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!selectedProject || !dialog) return;
+    const previousFocus = document.activeElement;
+    dialog.showModal();
+    return () => {
+      dialog.close();
+      if (previousFocus instanceof HTMLElement && previousFocus.isConnected) previousFocus.focus();
+    };
+  }, [selectedProject]);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -57,8 +70,8 @@ export default function GalleryPage() {
             Project Gallery
           </h1>
           <p className="text-white/60 text-lg max-w-2xl">
-            Browse our portfolio of completed homes. Each project represents 
-            our commitment to quality and craftsmanship.
+            Illustrative images and fictional project cards demonstrate the gallery.
+            They are not evidence of homes built, clients, or completed work.
           </p>
         </div>
 
@@ -67,6 +80,7 @@ export default function GalleryPage() {
           {categories.map((cat) => (
             <button
               key={cat}
+              aria-pressed={filter === cat}
               onClick={() => setFilter(cat)}
               className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
                 filter === cat
@@ -82,10 +96,12 @@ export default function GalleryPage() {
         {/* Gallery Grid */}
         <div ref={gridRef} className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredProjects.map((project) => (
-            <div 
+            <button
+              type="button"
               key={project.id}
               onClick={() => setSelectedProject(project)}
-              className="group cursor-pointer rounded-[22px] overflow-hidden border border-white/10 bg-white/[0.02] hover:border-white/20 transition-all"
+              aria-label={`View sample project ${project.title}`}
+              className="group cursor-pointer text-left rounded-[22px] overflow-hidden border border-white/10 bg-white/[0.02] hover:border-white/20 transition-all"
             >
               <div className="aspect-[4/3] overflow-hidden">
                 <img 
@@ -110,15 +126,19 @@ export default function GalleryPage() {
                   {project.location}
                 </div>
               </div>
-            </div>
+            </button>
           ))}
         </div>
       </div>
 
       {/* Modal */}
       {selectedProject && (
-        <div 
-          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-6"
+        <dialog
+          ref={dialogRef}
+          aria-labelledby="sample-project-title"
+          onCancel={() => setSelectedProject(null)}
+          onKeyDown={trapDialogFocus}
+          className="fixed inset-0 z-50 m-0 h-full w-full max-h-none max-w-none border-0 bg-black/90 backdrop-blur-sm hidden open:flex items-center justify-center p-6"
           onClick={() => setSelectedProject(null)}
         >
           <div 
@@ -132,6 +152,8 @@ export default function GalleryPage() {
                 className="w-full aspect-video object-cover"
               />
               <button
+                type="button"
+                aria-label="Close sample project"
                 onClick={() => setSelectedProject(null)}
                 className="absolute top-4 right-4 w-10 h-10 bg-black/50 rounded-full flex items-center justify-center text-white hover:bg-black/70 transition-colors"
               >
@@ -152,7 +174,7 @@ export default function GalleryPage() {
                   {selectedProject.year}
                 </span>
               </div>
-              <h2 className="font-display font-bold text-white text-3xl mb-4">
+              <h2 id="sample-project-title" className="font-display font-bold text-white text-3xl mb-4">
                 {selectedProject.title}
               </h2>
               <p className="text-white/70 leading-relaxed mb-6">
@@ -171,7 +193,7 @@ export default function GalleryPage() {
               </div>
             </div>
           </div>
-        </div>
+        </dialog>
       )}
     </div>
   );

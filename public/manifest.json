@@ -1,7 +1,7 @@
 {
-    "name": "HomeConstruction.site",
-    "short_name": "HC.site",
-    "description": "Build Your Home In Public - A productized construction service",
+    "name": "HomeConstruction Interface Study",
+    "short_name": "HC Study",
+    "description": "Fictional construction interface, not an operating service",
     "start_url": "/",
     "display": "standalone",
     "background_color": "#0B0B0D",

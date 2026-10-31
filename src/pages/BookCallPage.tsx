@@ -24,7 +24,11 @@ export default function BookCallPage() {
     const date = new Date();
     date.setDate(date.getDate() + i + 1);
     return {
-      value: date.toISOString().split('T')[0],
+      value: [
+        date.getFullYear(),
+        String(date.getMonth() + 1).padStart(2, '0'),
+        String(date.getDate()).padStart(2, '0'),
+      ].join('-'),
       label: date.toLocaleDateString('en-US', { 
         weekday: 'short', 
         month: 'short', 
@@ -78,8 +82,8 @@ export default function BookCallPage() {
     }
 
     setSubmitted(true);
-    toast.success('Call scheduled!', {
-      description: `We'll see you on ${selectedDate} at ${selectedTime}.`,
+    toast.info('Sample selection previewed', {
+      description: 'No appointment, email, or calendar invitation was created.',
     });
   };
 
@@ -91,15 +95,15 @@ export default function BookCallPage() {
             <Check size={40} className="text-[#B8FF3D]" />
           </div>
           <h1 className="headline-section text-white mb-4">
-            You're All Set!
+            Sample Selection Only
           </h1>
           <p className="text-white/60 text-lg mb-8">
-            Your discovery call is scheduled for <strong className="text-white">{selectedDate}</strong> at{' '}
+            Your illustrative selection is <strong className="text-white">{selectedDate}</strong> at{' '}
             <strong className="text-white">{selectedTime}</strong>.
           </p>
           <p className="text-white/40 text-sm mb-8">
-            We've sent a confirmation email to {formData.email}. 
-            You'll also receive a reminder 24 hours before the call.
+            No call was booked. No confirmation, reminder, or calendar invitation was sent.
+            These sample slots do not represent real availability.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/" className="btn-primary">
@@ -120,11 +124,11 @@ export default function BookCallPage() {
         {/* Header */}
         <div ref={headerRef} className="text-center mb-12">
           <h1 className="headline-section text-white mb-4">
-            Book a Free Call
+            Call Planner Preview
           </h1>
           <p className="text-white/60 text-lg max-w-2xl mx-auto">
-            Schedule a 30-minute discovery call. We'll discuss your project, 
-            answer your questions, and provide a preliminary estimate.
+            Explore illustrative meeting types, dates, and times.
+            This is not a scheduling service and shows no real availability.
           </p>
         </div>
 
@@ -139,9 +143,11 @@ export default function BookCallPage() {
               How would you like to meet?
             </h3>
             <div className="grid sm:grid-cols-2 gap-4">
-              <div
+              <button
+                type="button"
+                aria-pressed={selectedType === 'video'}
                 onClick={() => setSelectedType('video')}
-                className={`cursor-pointer p-4 rounded-[14px] border transition-all ${
+                className={`cursor-pointer text-left p-4 rounded-[14px] border transition-all ${
                   selectedType === 'video'
                     ? 'border-[#B8FF3D] bg-[#B8FF3D]/5'
                     : 'border-white/10 hover:border-white/20'
@@ -151,13 +157,15 @@ export default function BookCallPage() {
                   <Video size={24} className="text-[#B8FF3D]" />
                   <div>
                     <p className="text-white font-medium">Video Call</p>
-                    <p className="text-white/50 text-sm">Zoom or Google Meet</p>
+                    <p className="text-white/50 text-sm">Sample type, no meeting created</p>
                   </div>
                 </div>
-              </div>
-              <div
+              </button>
+              <button
+                type="button"
+                aria-pressed={selectedType === 'phone'}
                 onClick={() => setSelectedType('phone')}
-                className={`cursor-pointer p-4 rounded-[14px] border transition-all ${
+                className={`cursor-pointer text-left p-4 rounded-[14px] border transition-all ${
                   selectedType === 'phone'
                     ? 'border-[#B8FF3D] bg-[#B8FF3D]/5'
                     : 'border-white/10 hover:border-white/20'
@@ -167,10 +175,10 @@ export default function BookCallPage() {
                   <Phone size={24} className="text-[#B8FF3D]" />
                   <div>
                     <p className="text-white font-medium">Phone Call</p>
-                    <p className="text-white/50 text-sm">We'll call you</p>
+                    <p className="text-white/50 text-sm">Sample channel, no call placed</p>
                   </div>
                 </div>
-              </div>
+              </button>
             </div>
           </div>
 
@@ -187,6 +195,8 @@ export default function BookCallPage() {
                 <button
                   key={date.value}
                   type="button"
+                  aria-label={`Sample date ${date.label}`}
+                  aria-pressed={selectedDate === date.value}
                   onClick={() => setSelectedDate(date.value)}
                   className={`p-3 rounded-xl text-center transition-all ${
                     selectedDate === date.value
@@ -218,6 +228,7 @@ export default function BookCallPage() {
                 <button
                   key={time}
                   type="button"
+                  aria-pressed={selectedTime === time}
                   onClick={() => setSelectedTime(time)}
                   className={`p-3 rounded-xl text-center transition-all ${
                     selectedTime === time
@@ -238,40 +249,38 @@ export default function BookCallPage() {
             </h3>
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
-                <label className="text-white/60 text-sm mb-2 block">Full Name *</label>
-                <input
+                <label htmlFor="bookcallpage-field-1" className="text-white/60 text-sm mb-2 block">Full Name (optional sample)</label>
+                <input id="bookcallpage-field-1"
                   type="text"
-                  required
                   className="form-input"
-                  placeholder="John Smith"
+                  placeholder="Sample Visitor"
                   value={formData.name}
                   onChange={e => setFormData({...formData, name: e.target.value})}
                 />
               </div>
               <div>
-                <label className="text-white/60 text-sm mb-2 block">Email *</label>
-                <input
+                <label htmlFor="bookcallpage-field-2" className="text-white/60 text-sm mb-2 block">Email (optional sample)</label>
+                <input id="bookcallpage-field-2"
                   type="email"
-                  required
                   className="form-input"
-                  placeholder="john@example.com"
+                  placeholder="sample@example.invalid"
                   value={formData.email}
                   onChange={e => setFormData({...formData, email: e.target.value})}
                 />
               </div>
               <div className="sm:col-span-2">
-                <label className="text-white/60 text-sm mb-2 block">Phone</label>
-                <input
+                <label htmlFor="bookcallpage-field-3" className="text-white/60 text-sm mb-2 block">Phone (optional sample)</label>
+                <input id="bookcallpage-field-3"
                   type="tel"
                   className="form-input"
-                  placeholder="(555) 123-4567"
+                  placeholder="Leave blank for this preview"
                   value={formData.phone}
                   onChange={e => setFormData({...formData, phone: e.target.value})}
                 />
               </div>
               <div className="sm:col-span-2">
-                <label className="text-white/60 text-sm mb-2 block">Notes (Optional)</label>
-                <textarea
+                <label htmlFor="bookcallpage-field-4" className="text-white/60 text-sm mb-2 block">Notes (Optional)</label>
+                <textarea id="bookcallpage-field-4"
                   className="form-input min-h-[80px]"
                   placeholder="Anything specific you'd like to discuss?"
                   value={formData.notes}
@@ -282,14 +291,14 @@ export default function BookCallPage() {
           </div>
 
           <button type="submit" className="btn-primary w-full justify-center">
-            Confirm Booking
+            Preview selection
             <ArrowRight size={18} className="ml-2" />
           </button>
 
           <p className="text-center text-white/40 text-sm">
-            By booking, you agree to our{' '}
+            This preview creates no booking or agreement. Read the{' '}
             <Link to="/terms" className="text-[#B8FF3D] hover:underline">
-              Terms of Service
+              prototype usage notice
             </Link>
           </p>
         </form>

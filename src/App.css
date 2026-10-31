@@ -42,11 +42,45 @@ textarea:focus-visible {
   color: #F4F4F5;
 }
 
-/* Mobile optimizations */
-@media (max-width: 1024px) {
-  .section-pinned {
-    min-height: 100vh;
-    min-height: 100dvh;
+/* Keep the editorial panels readable without desktop scroll pinning. */
+@media (max-width: 1023px) {
+  main .section-pinned {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    min-height: 0;
+    padding: 48px max(24px, env(safe-area-inset-left, 0px)) 48px max(24px, env(safe-area-inset-right, 0px));
+  }
+
+  .section-pinned > .absolute {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    transform: none;
+    translate: none;
+  }
+
+  .section-pinned .headline-hero,
+  .section-pinned .headline-section {
+    font-size: clamp(32px, 8vw, 64px);
+    line-height: 1.05;
+    overflow-wrap: anywhere;
+  }
+
+  .section-pinned > .card-editorial > img {
+    height: clamp(224px, 60vw, 448px);
+  }
+
+  .home-hero > .home-hero__badge { order: 0; }
+  .home-hero > .home-hero__headline { order: 1; }
+  .home-hero > .home-hero__photo { order: 2; }
+  .home-hero > .home-hero__actions { order: 3; }
+  .home-hero > .home-hero__caption { order: 4; }
+
+  .home-hero > .home-hero__photo > img {
+    height: clamp(288px, 85vw, 544px);
   }
 }
 

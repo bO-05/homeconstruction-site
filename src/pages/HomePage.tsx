@@ -4,7 +4,8 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight, Check, Star, ExternalLink, Download } from 'lucide-react';
 import { timelineWeeks, galleryProjects } from '../data/content';
-import { useReducedMotion } from '../hooks/useReducedMotion';
+import { withEditorialMotion } from '../lib/editorial-motion';
+import { getSampleTimelineText } from '../lib/sample-timeline';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,28 +14,19 @@ function HeroSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
   const headlineRef = useRef<HTMLDivElement>(null);
-  const subRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
   const badgeRef = useRef<HTMLDivElement>(null);
-  const prefersReducedMotion = useReducedMotion();
 
   useLayoutEffect(() => {
     const section = sectionRef.current;
     const card = cardRef.current;
     const headline = headlineRef.current;
-    const sub = subRef.current;
     const cta = ctaRef.current;
     const badge = badgeRef.current;
 
-    if (!section || !card || !headline || !sub || !cta || !badge) return;
+    if (!section || !card || !headline || !cta || !badge) return;
 
-    // If user prefers reduced motion, show everything immediately
-    if (prefersReducedMotion) {
-      gsap.set([card, headline, sub, cta, badge], { opacity: 1, x: 0, y: 0, scale: 1 });
-      return;
-    }
-
-    const ctx = gsap.context(() => {
+    return withEditorialMotion(section, () => {
       const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
       tl.fromTo(card,
@@ -45,11 +37,6 @@ function HeroSection() {
           { y: 40, opacity: 0 },
           { y: 0, opacity: 1, duration: 0.8, stagger: 0.05 },
           '-=0.6'
-        )
-        .fromTo(sub,
-          { y: 24, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.6 },
-          '-=0.4'
         )
         .fromTo(cta.children,
           { y: 24, opacity: 0 },
@@ -70,7 +57,7 @@ function HeroSection() {
           pin: true,
           scrub: 0.6,
           onLeaveBack: () => {
-            gsap.set([card, headline, sub, cta, badge], {
+            gsap.set([card, headline, cta, badge], {
               opacity: 1, x: 0, y: 0, scale: 1
             });
           }
@@ -101,20 +88,18 @@ function HeroSection() {
         0.7
       );
 
-    }, section);
-
-    return () => ctx.revert();
-  }, [prefersReducedMotion]);
+    });
+  }, []);
 
   return (
-    <section ref={sectionRef} className="section-pinned z-10">
-      <div ref={badgeRef} className="absolute left-[10vw] top-[22vh] z-20">
-        <span className="badge-pill">New Drop</span>
+    <section ref={sectionRef} className="section-pinned home-hero z-10">
+      <div ref={badgeRef} className="absolute home-hero__badge left-[10vw] top-[22vh] z-20">
+        <span className="badge-pill">Interface Study</span>
       </div>
 
       <div
         ref={cardRef}
-        className="absolute left-[6vw] top-[18vh] w-[48vw] h-[64vh] card-editorial z-0"
+        className="absolute home-hero__photo left-[6vw] top-[18vh] w-[48vw] h-[64vh] card-editorial z-0"
       >
         <img
           src="/hero_scaffolding.jpg"
@@ -125,7 +110,7 @@ function HeroSection() {
 
       <div
         ref={headlineRef}
-        className="absolute left-[56vw] top-[18vh] w-[40vw] z-20"
+        className="absolute home-hero__headline left-[56vw] top-[18vh] w-[40vw] z-20"
       >
         <h1 className="headline-hero text-white">
           <span className="block">Build</span>
@@ -134,22 +119,12 @@ function HeroSection() {
         </h1>
       </div>
 
-      {/* <div
-        ref={subRef}
-        className="absolute right-[56vw] top-[72vh] w-[38vw] z-20"
-      >
-        <p className="text-white/70 text-sm lg:text-base leading-relaxed">
-          A productized construction service: one base package, modular add-ons,
-          and a shared timeline you can follow week by week.
-        </p>
-      </div> */}
-
       <div
         ref={ctaRef}
-        className="absolute left-[56vw] top-[82vh] w-[38vw] z-20 flex flex-col sm:flex-row gap-3"
+        className="absolute home-hero__actions left-[56vw] top-[82vh] w-[38vw] z-20 flex flex-col sm:flex-row gap-3"
       >
         <Link to="/quote" className="btn-primary">
-          Start your build
+          Try the sample calculator
           <ArrowRight size={18} className="ml-2" />
         </Link>
         <Link to="/how-it-works" className="btn-secondary">
@@ -157,9 +132,9 @@ function HeroSection() {
         </Link>
       </div>
 
-      <div className="absolute left-[6vw] top-[86vh] z-20">
+      <div className="absolute home-hero__caption left-[6vw] top-[86vh] z-20">
         <p className="text-white/50 text-sm tracking-wide">
-          Subscription builds · Fixed timeline · Open process
+          Fictional packages · Example timeline · Interface study
         </p>
       </div>
     </section>
@@ -180,7 +155,7 @@ function PlanSection() {
     const section = sectionRef.current;
     if (!section) return;
 
-    const ctx = gsap.context(() => {
+    return withEditorialMotion(section, () => {
       const scrollTl = gsap.timeline({
         scrollTrigger: {
           trigger: section,
@@ -238,9 +213,7 @@ function PlanSection() {
         0.7
       );
 
-    }, section);
-
-    return () => ctx.revert();
+    });
   }, []);
 
   return (
@@ -287,9 +260,9 @@ function PlanSection() {
         className="absolute left-[6vw] top-[80vh] w-[44vw] flex flex-col gap-3"
       >
         {[
-          'Fixed deliverables, no scope creep',
-          'Weekly updates + photo logs',
-          'Change orders in one click'
+          'Illustrative scope and deliverables',
+          'Sample update workflow, not a live portal',
+          'No connected change-order service'
         ].map((item, i) => (
           <div key={i} className="flex items-center gap-3">
             <Check size={18} className="text-[#B8FF3D]" />
@@ -321,7 +294,7 @@ function TimelineSection() {
     const section = sectionRef.current;
     if (!section) return;
 
-    const ctx = gsap.context(() => {
+    return withEditorialMotion(section, () => {
       const scrollTl = gsap.timeline({
         scrollTrigger: {
           trigger: section,
@@ -369,61 +342,11 @@ function TimelineSection() {
         0.7
       );
 
-    }, section);
-
-    return () => ctx.revert();
+    });
   }, []);
 
   const handleDownload = () => {
-    // Create a sample timeline PDF content
-    const content = `
-12-WEEK BUILD TIMELINE
-======================
-
-Week 1-2: Prep + Permits
-- Site preparation and cleanup
-- Permit acquisition
-- Utility marking
-- Material delivery scheduling
-Milestone: Permits Approved
-
-Week 3-4: Foundation & Framing
-- Foundation work
-- Structural framing
-- Roof installation
-- Window & door openings
-Milestone: Structure Complete
-
-Week 5-6: Systems Installation
-- Electrical rough-in
-- Plumbing installation
-- HVAC ductwork
-- Insulation
-Milestone: Systems In Place
-
-Week 7-8: Interior Finishes
-- Drywall installation
-- Flooring installation
-- Interior painting
-- Trim work
-Milestone: Interior Complete
-
-Week 9-10: Kitchen & Bath
-- Cabinet installation
-- Countertop installation
-- Fixture installation
-- Appliance hookup
-Milestone: Kitchen & Bath Done
-
-Week 11-12: Final Touches
-- Final electrical
-- Final plumbing
-- Cleanup & detailing
-- Final inspection
-Milestone: Project Complete
-
-Contact us: hello@homeconstruction.site
-    `;
+    const content = getSampleTimelineText();
 
     const blob = new Blob([content], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
@@ -439,7 +362,7 @@ Contact us: hello@homeconstruction.site
   return (
     <section ref={sectionRef} className="section-pinned z-30">
       <div ref={badgeRef} className="absolute left-[10vw] top-[22vh] z-20">
-        <span className="badge-pill">12-Week Build</span>
+        <span className="badge-pill">12-Week Example</span>
       </div>
 
       <div
@@ -457,7 +380,7 @@ Contact us: hello@homeconstruction.site
         ref={headlineRef}
         className="absolute left-[58vw] top-[22vh] w-[36vw] headline-section text-white"
       >
-        12-Week<br />Build.
+        Example<br />Timeline.
       </h2>
 
       <div
@@ -486,7 +409,7 @@ Contact us: hello@homeconstruction.site
 
       <div className="absolute left-[6vw] top-[90vh]">
         <p className="text-white/50 text-sm">
-          Milestones published every Monday.
+          Sample milestones. No publishing service is connected.
         </p>
       </div>
     </section>
@@ -507,7 +430,7 @@ function PricingSection() {
     const section = sectionRef.current;
     if (!section) return;
 
-    const ctx = gsap.context(() => {
+    return withEditorialMotion(section, () => {
       const scrollTl = gsap.timeline({
         scrollTrigger: {
           trigger: section,
@@ -560,9 +483,7 @@ function PricingSection() {
         0.7
       );
 
-    }, section);
-
-    return () => ctx.revert();
+    });
   }, []);
 
   return (
@@ -571,11 +492,11 @@ function PricingSection() {
         ref={headlineRef}
         className="absolute left-[6vw] top-[12vh] w-[88vw] headline-section text-white text-center z-10"
       >
-        Transparent<br />Pricing.
+        Sample<br />Pricing.
       </h2>
 
       <div ref={priceRef} className="absolute left-1/2 top-[50vh] -translate-x-1/2 z-10">
-        <span className="price-pill">From $32,000</span>
+        <span className="price-pill">Sample: $32,000</span>
       </div>
 
       <div
@@ -605,9 +526,9 @@ function PricingSection() {
         className="absolute left-[6vw] top-[78vh] w-[44vw] flex flex-col gap-3"
       >
         {[
-          'All labor + project management',
-          'Material allowances included',
-          'Monthly payment options'
+          'Illustrative labor + management',
+          'Sample material allowances',
+          'No payments or financing'
         ].map((item, i) => (
           <div key={i} className="flex items-center gap-3">
             <Check size={18} className="text-[#B8FF3D]" />
@@ -618,7 +539,7 @@ function PricingSection() {
 
       <div ref={ctaRef} className="absolute left-[54vw] top-[80vh]">
         <Link to="/quote" className="btn-primary text-sm">
-          Request a detailed quote
+          Preview sample pricing
           <ArrowRight size={16} className="ml-2" />
         </Link>
       </div>
@@ -640,7 +561,7 @@ function AddonsSection() {
     const section = sectionRef.current;
     if (!section) return;
 
-    const ctx = gsap.context(() => {
+    return withEditorialMotion(section, () => {
       const scrollTl = gsap.timeline({
         scrollTrigger: {
           trigger: section,
@@ -688,9 +609,7 @@ function AddonsSection() {
         0.7
       );
 
-    }, section);
-
-    return () => ctx.revert();
+    });
   }, []);
 
   const chips = ['Kitchen Upgrade', 'Bath Module', 'Smart Home'];
@@ -740,9 +659,9 @@ function AddonsSection() {
         className="absolute left-[6vw] top-[78vh] w-[44vw] flex flex-col gap-3"
       >
         {[
-          'Add modules anytime before Week 6',
-          'Fixed pricing per module',
-          'Upgrade without changing the timeline'
+          'Explore fictional add-on modules',
+          'Illustrative module pricing',
+          'No delivery commitment'
         ].map((item, i) => (
           <div key={i} className="flex items-center gap-3">
             <Check size={18} className="text-[#B8FF3D]" />
@@ -774,7 +693,7 @@ function GalleryPreviewSection() {
     const section = sectionRef.current;
     if (!section) return;
 
-    const ctx = gsap.context(() => {
+    return withEditorialMotion(section, () => {
       const scrollTl = gsap.timeline({
         scrollTrigger: {
           trigger: section,
@@ -822,9 +741,7 @@ function GalleryPreviewSection() {
         0.7
       );
 
-    }, section);
-
-    return () => ctx.revert();
+    });
   }, []);
 
   return (
@@ -848,7 +765,7 @@ function GalleryPreviewSection() {
         ref={headlineRef}
         className="absolute left-[58vw] top-[22vh] w-[36vw] headline-section text-white"
       >
-        See Recent<br />Homes.
+        Explore Sample<br />Homes.
       </h2>
 
       <div
@@ -856,7 +773,7 @@ function GalleryPreviewSection() {
         className="absolute left-[58vw] top-[50vh] w-[36vw] flex gap-[2%]"
       >
         {galleryProjects.slice(1, 3).map((thumb, i) => (
-          <div key={i} className="w-[48%] h-[22vh] card-editorial-sm relative group cursor-pointer overflow-hidden">
+          <Link key={i} to="/gallery" aria-label={`Explore sample project ${thumb.title}`} className="w-[48%] h-[22vh] card-editorial-sm relative group overflow-hidden">
             <img
               src={thumb.image}
               alt={thumb.title}
@@ -865,13 +782,13 @@ function GalleryPreviewSection() {
             <div className="absolute bottom-2 left-3 bg-black/60 px-2 py-1 rounded">
               <span className="text-white text-xs">{thumb.category}</span>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
 
       <div ref={ctaRef} className="absolute left-[58vw] top-[78vh]">
         <Link to="/gallery" className="link-underline text-white flex items-center gap-2">
-          View full project gallery
+          View the illustrative gallery
           <ExternalLink size={16} />
         </Link>
       </div>
@@ -893,7 +810,7 @@ function ReviewsPreviewSection() {
     const section = sectionRef.current;
     if (!section) return;
 
-    const ctx = gsap.context(() => {
+    return withEditorialMotion(section, () => {
       const scrollTl = gsap.timeline({
         scrollTrigger: {
           trigger: section,
@@ -941,9 +858,7 @@ function ReviewsPreviewSection() {
         0.7
       );
 
-    }, section);
-
-    return () => ctx.revert();
+    });
   }, []);
 
   return (
@@ -952,12 +867,12 @@ function ReviewsPreviewSection() {
         ref={headlineRef}
         className="absolute left-[6vw] top-[12vh] w-[70vw] headline-section text-white z-10"
       >
-        Homeowners<br />Say…
+        Sample Review<br />Layout.
       </h2>
 
       <div ref={badgeRef} className="absolute left-[78vw] top-[22vh] z-10">
         <span className="badge-pill flex items-center gap-1">
-          <Star size={14} fill="currentColor" /> 5.0
+          <Star size={14} fill="currentColor" /> Demo
         </span>
       </div>
 
@@ -966,8 +881,8 @@ function ReviewsPreviewSection() {
         className="absolute left-[6vw] top-[36vh] w-[44vw] h-[42vh] card-editorial z-0"
       >
         <img
-          src="/reviewer_portrait.jpg"
-          alt="Happy homeowner"
+          src="/plan_interior.jpg"
+          alt="Illustrative interior, not a customer's home"
           className="w-full h-full object-cover"
         />
       </div>
@@ -990,12 +905,12 @@ function ReviewsPreviewSection() {
         <p className="text-white/90 text-base lg:text-lg italic leading-relaxed">
           "They finished on time, stayed on budget, and the weekly updates kept us sane."
         </p>
-        <p className="text-white/50 text-sm mt-2">— Sarah Mitchell, Austin TX</p>
+        <p className="text-white/50 text-sm mt-2">— Fictional sample homeowner, not an endorsement</p>
       </div>
 
       <div ref={ctaRef} className="absolute left-[54vw] top-[80vh]">
         <Link to="/reviews" className="link-underline text-white flex items-center gap-2">
-          Read more reviews
+          Explore sample review cards
           <ArrowRight size={16} />
         </Link>
       </div>
@@ -1014,7 +929,7 @@ function FinalCTASection() {
     const section = sectionRef.current;
     if (!section) return;
 
-    const ctx = gsap.context(() => {
+    return withEditorialMotion(section, () => {
       const scrollTl = gsap.timeline({
         scrollTrigger: {
           trigger: section,
@@ -1052,9 +967,7 @@ function FinalCTASection() {
         0.7
       );
 
-    }, section);
-
-    return () => ctx.revert();
+    });
   }, []);
 
   return (
@@ -1063,7 +976,7 @@ function FinalCTASection() {
         ref={headlineRef}
         className="absolute left-[6vw] top-[12vh] w-[88vw] headline-section text-white text-center z-10"
       >
-        Ready When<br />You Are.
+        Explore<br />The Study.
       </h2>
 
       <div
@@ -1082,15 +995,14 @@ function FinalCTASection() {
         className="absolute left-1/2 top-[78vh] -translate-x-1/2 flex flex-col items-center gap-4"
       >
         <Link to="/book-call" className="btn-primary text-lg px-8 py-4">
-          Book a free call
+          Preview a call
           <ArrowRight size={20} className="ml-2" />
         </Link>
         <p className="text-white/60 text-sm text-center">
-          No commitment. We'll map your scope and send a quote in 48 hours.
+          Interface preview only. No call, appointment, or quote is created.
         </p>
       </div>
 
-      {/* Footer credit */}
       <div className="absolute left-1/2 bottom-[3vh] -translate-x-1/2 flex items-center gap-2">
         <span className="text-white/40 text-xs">Built by</span>
         <a

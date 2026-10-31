@@ -1,11 +1,24 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Phone } from 'lucide-react';
+import { trapDialogFocus } from '../lib/dialog-focus';
 
-export default function Navigation() {
+function NavigationContent() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const menuRef = useRef<HTMLDialogElement>(null);
   const location = useLocation();
+
+  useEffect(() => {
+    const dialog = menuRef.current;
+    if (!mobileOpen || !dialog) return;
+    const previousFocus = document.activeElement;
+    dialog.showModal();
+    return () => {
+      dialog.close();
+      if (previousFocus instanceof HTMLElement && previousFocus.isConnected) previousFocus.focus();
+    };
+  }, [mobileOpen]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -14,11 +27,6 @@ export default function Navigation() {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  // Close mobile menu on route change
-  useEffect(() => {
-    setMobileOpen(false);
-  }, [location.pathname]);
 
   const navLinks = [
     { label: 'Packages', href: '/packages' },
@@ -63,7 +71,7 @@ export default function Navigation() {
             className="btn-primary text-sm py-2.5 px-5 flex items-center gap-2"
           >
             <Phone size={14} />
-            Book a call
+            Preview a call
           </Link>
         </div>
 
@@ -72,6 +80,7 @@ export default function Navigation() {
           className="lg:hidden text-white p-2"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Toggle menu"
+          aria-expanded={mobileOpen}
         >
           {mobileOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
@@ -79,8 +88,14 @@ export default function Navigation() {
 
       {/* Mobile Menu */}
       {mobileOpen && (
-        <div className="fixed inset-0 z-50 bg-[#0B0B0D]/98 backdrop-blur-lg lg:hidden overscroll-contain">
-          <div className="flex flex-col items-center justify-center h-full gap-6">
+        <dialog
+          ref={menuRef}
+          aria-label="Site navigation"
+          onCancel={() => setMobileOpen(false)}
+          onKeyDown={trapDialogFocus}
+          className="fixed inset-0 z-50 m-0 h-full w-full max-h-none max-w-none border-0 bg-[#0B0B0D]/98 backdrop-blur-lg lg:hidden overscroll-contain overflow-y-auto"
+        >
+          <div className="flex flex-col items-center justify-center min-h-full gap-6 py-20">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -98,7 +113,7 @@ export default function Navigation() {
               className="btn-primary mt-4 flex items-center gap-2"
             >
               <Phone size={18} />
-              Book a call
+              Preview a call
             </Link>
           </div>
           <button
@@ -108,8 +123,13 @@ export default function Navigation() {
           >
             <X size={28} />
           </button>
-        </div>
+        </dialog>
       )}
     </>
   );
+}
+
+export default function Navigation() {
+  const location = useLocation();
+  return <NavigationContent key={location.pathname} />;
 }

@@ -58,8 +58,8 @@ export default function PackagesPage() {
             Choose Your Base
           </h1>
           <p className="text-white/60 text-lg max-w-2xl mx-auto">
-            All packages include our signature 12-week timeline, weekly updates, 
-            and dedicated project management. Start with a base, then add modules.
+            Explore fictional base packages and add-ons. Prices, features,
+            warranties, and the example timeline are not actual offers or commitments.
           </p>
         </div>
 
@@ -78,7 +78,7 @@ export default function PackagesPage() {
               {pkg.popular && (
                 <div className="absolute top-4 right-4">
                   <span className="badge-pill flex items-center gap-1">
-                    <Star size={12} fill="currentColor" /> Most Popular
+                    <Star size={12} fill="currentColor" /> Sample Highlight
                   </span>
                 </div>
               )}
@@ -101,7 +101,7 @@ export default function PackagesPage() {
                   <span className="text-[#B8FF3D] font-display font-bold text-3xl">
                     {formatPrice(pkg.price)}
                   </span>
-                  <span className="text-white/40 text-sm">starting</span>
+                  <span className="text-white/40 text-sm">example</span>
                 </div>
                 <p className="text-white/60 text-sm mb-6">
                   {pkg.description}
@@ -110,7 +110,7 @@ export default function PackagesPage() {
                 {/* Features */}
                 <div className="space-y-3 mb-6">
                   <p className="text-white/40 text-xs uppercase tracking-wider">
-                    What's included
+                    Illustrative features
                   </p>
                   {pkg.features.slice(0, 6).map((feature, i) => (
                     <div key={i} className="flex items-start gap-3">
@@ -144,7 +144,7 @@ export default function PackagesPage() {
                       : 'bg-white/10 text-white hover:bg-white/20'
                   }`}
                 >
-                  Get Started
+                  Preview Calculator
                   <ArrowRight size={16} />
                 </Link>
               </div>
@@ -161,7 +161,7 @@ export default function PackagesPage() {
             to="/book-call" 
             className="btn-secondary inline-flex"
           >
-            Schedule a free consultation
+            Preview the consultation form
             <ArrowRight size={16} className="ml-2" />
           </Link>
         </div>

@@ -59,6 +59,14 @@ function App() {
       <ScrollToTop />
       <Navigation />
 
+      <aside role="note" className="relative z-10 border-b border-[#B8FF3D]/30 bg-[#B8FF3D]/5 px-6 pb-4 pt-28 text-sm leading-relaxed text-white/80">
+        <p className="mx-auto max-w-6xl">
+          <strong className="text-[#B8FF3D]">Fictional interface study.</strong>{' '}
+          Prices, schedules, warranties, projects, and reviews are illustrative, not real offers or customer results.
+          Forms do not send messages, request quotes, or book appointments. Use sample details only.
+        </p>
+      </aside>
+
       <main id="main-content" className="relative">
         <Routes>
           <Route path="/" element={<HomePage />} />
